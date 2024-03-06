@@ -2,6 +2,7 @@ package com.javabackend.blog.services;
 
 import com.javabackend.blog.entities.Post;
 import com.javabackend.blog.payloads.PostDto;
+import com.javabackend.blog.payloads.PostResponse;
 import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.util.List;
@@ -17,12 +18,12 @@ public interface PostService {
     //get single post by id
     PostDto getPostById(Integer postId);
     //get all posts by category
-    List<PostDto> getPostsByCategory(Integer categoryId);
+    PostResponse getPostsByCategory(Integer categoryId,Integer pageNumber, Integer paseSize);
 
     //get all posts by user
-    List<PostDto> getPostsByUser(Integer userId);
+    PostResponse getPostsByUser(Integer userId,Integer pageNumber, Integer paseSize);
 
-    List<PostDto> getAllPosts(Integer pageNumber, Integer paseSize);
+    PostResponse getAllPosts(Integer pageNumber, Integer paseSize);
 
     //get search post by keyword
     List<Post> searchPosts(String keyword);
