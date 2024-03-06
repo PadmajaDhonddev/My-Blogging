@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -73,9 +74,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostResponse getPostsByCategory(Integer categoryId,Integer pageNumber, Integer paseSize) {
+    public PostResponse getPostsByCategory(Integer categoryId,Integer pageNumber, Integer paseSize, String sortBy, String sortDir) {
         Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category", "Category id", categoryId));
-        Pageable pageRequest = PageRequest.of(pageNumber, paseSize);
+        Sort sort = (sortDir.equalsIgnoreCase("asc"))?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+        Pageable pageRequest = PageRequest.of(pageNumber, paseSize, sort);
         Page<Post> pagePost = this.postRepository.findByCategory(category, pageRequest);
         List<Post> postCategoryList = pagePost.getContent();
         List<PostDto> postDtos = postCategoryList.stream().map(post -> this.modelMapper.map(post, PostDto.class)).toList();
@@ -92,9 +94,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostResponse getPostsByUser(Integer userId,Integer pageNumber, Integer paseSize) {
+    public PostResponse getPostsByUser(Integer userId,Integer pageNumber, Integer paseSize, String sortBy, String sortDir) {
         User user = this.userRepository.findById(userId).orElseThrow(()->new ResourceNotFoundException("User", "User Id", userId));
-        Pageable pageRequest = PageRequest.of(pageNumber, paseSize);
+        Sort sort = (sortDir.equalsIgnoreCase("asc"))?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+        Pageable pageRequest = PageRequest.of(pageNumber, paseSize, sort);
         Page<Post> pagePost = this.postRepository.findByUser(user, pageRequest);
 
         List<Post> postUserList = pagePost.getContent();
@@ -109,8 +112,9 @@ public class PostServiceImpl implements PostService {
         return postResponse;
     }
 
-    public PostResponse getAllPosts(Integer pageNumber, Integer paseSize){
-        Pageable pageRequest = PageRequest.of(pageNumber, paseSize);
+    public PostResponse getAllPosts(Integer pageNumber, Integer paseSize, String sortBy, String sortDir) {
+        Sort sort = (sortDir.equalsIgnoreCase("asc"))?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+        Pageable pageRequest = PageRequest.of(pageNumber, paseSize, sort);
         Page<Post> pagePost = this.postRepository.findAll(pageRequest);
         List<Post> allPosts = pagePost.getContent();
         List<PostDto> postDtos = allPosts.stream().map(post -> this.modelMapper.map(post, PostDto.class)).toList();

@@ -33,16 +33,20 @@ public class PostController {
     @GetMapping("/user/{userId}/posts")
     public ResponseEntity<PostResponse> getPostsByUser(@PathVariable Integer userId,
             @RequestParam(value="pageNumber", defaultValue = "0", required = false) Integer pageNumber,
-            @RequestParam(value="pageSize", defaultValue = "5", required = false) Integer pageSize){
-        PostResponse postResponse  = this.postService.getPostsByUser(userId, pageNumber, pageSize);
+            @RequestParam(value="pageSize", defaultValue = "5", required = false) Integer pageSize,
+            @RequestParam(value="sortBy", defaultValue = "postId", required = false) String sortBy,
+            @RequestParam(value="sortDir", defaultValue = "asc", required = false) String sortDir){
+        PostResponse postResponse  = this.postService.getPostsByUser(userId, pageNumber, pageSize, sortBy, sortDir);
         return new ResponseEntity<>(postResponse, HttpStatus.OK);
     }
 
     @GetMapping("/category/{categoryId}/posts")
     public ResponseEntity<PostResponse> getPostsByCategory(@PathVariable Integer categoryId,
                                                            @RequestParam(value="pageNumber", defaultValue = "0", required = false) Integer pageNumber,
-                                                           @RequestParam(value="pageSize", defaultValue = "5", required = false) Integer pageSize){
-        PostResponse postResponse  = this.postService.getPostsByCategory(categoryId, pageNumber, pageSize);
+                                                           @RequestParam(value="pageSize", defaultValue = "5", required = false) Integer pageSize,
+                                                           @RequestParam(value="sortBy", defaultValue = "postId", required = false) String sortBy,
+                                                           @RequestParam(value="sortDir", defaultValue = "asc", required = false) String sortDir){
+        PostResponse postResponse  = this.postService.getPostsByCategory(categoryId, pageNumber, pageSize, sortBy, sortDir);
         return new ResponseEntity<>(postResponse, HttpStatus.OK);
     }
 
@@ -50,8 +54,10 @@ public class PostController {
     @GetMapping("/posts")
     public ResponseEntity<PostResponse> getAllPosts(
             @RequestParam(value="pageNumber", defaultValue = "0", required = false) Integer pageNumber
-            ,@RequestParam(value="pageSize", defaultValue = "5", required = false) Integer pageSize){
-        PostResponse postResponse = this.postService.getAllPosts(pageNumber, pageSize);
+            ,@RequestParam(value="pageSize", defaultValue = "5", required = false) Integer pageSize,
+            @RequestParam(value="sortBy", defaultValue = "postId", required = false) String sortBy,
+            @RequestParam(value="sortDir", defaultValue = "asc", required = false) String sortDir){
+        PostResponse postResponse = this.postService.getAllPosts(pageNumber, pageSize, sortBy, sortDir);
         return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
     }
 

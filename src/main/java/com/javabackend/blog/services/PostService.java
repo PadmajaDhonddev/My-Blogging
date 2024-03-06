@@ -18,12 +18,12 @@ public interface PostService {
     //get single post by id
     PostDto getPostById(Integer postId);
     //get all posts by category
-    PostResponse getPostsByCategory(Integer categoryId,Integer pageNumber, Integer paseSize);
+    PostResponse getPostsByCategory(Integer categoryId,Integer pageNumber, Integer paseSize, String sortBy, String sortDir);
 
     //get all posts by user
-    PostResponse getPostsByUser(Integer userId,Integer pageNumber, Integer paseSize);
+    PostResponse getPostsByUser(Integer userId,Integer pageNumber, Integer paseSize, String sortBy, String sortDir);
 
-    PostResponse getAllPosts(Integer pageNumber, Integer paseSize);
+    PostResponse getAllPosts(Integer pageNumber, Integer paseSize, String sortBy, String sortDir);
 
     //get search post by keyword
     List<Post> searchPosts(String keyword);
